@@ -1,0 +1,19 @@
+{
+  "name": "discforum",
+  "version": "1.0.0",
+  "description": "a server for Discussion forum application",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "snb'",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.4.0",
+    "nodemon": "^3.1.1",
+    "validator": "^13.12.0"
+  }
+}

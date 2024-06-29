@@ -1,0 +1,71 @@
+###
+GET http://localhost:8081/
+
+
+
+###
+GET http://localhost:8081/currencies/?min_size=0.01
+
+
+###
+GET http://localhost:8081/currencies/inr
+
+### 
+GET http://localhost:8081/users
+authentication: LetMeIn
+
+###
+
+GET http://localhost:8081/users/06750d9e-84d3-4cd1-8f89-1710213d2576            
+
+### 
+GET http://localhost:8081/users/search?gender=female&age=40
+authentication: LetMeIn
+
+###
+POST http://localhost:8081/blogs/new
+content-type: application/json
+authentication: LetMeIn
+
+{
+ "title": "A Lines by RAM",
+ "author":[
+    {
+    "fullName": "Ram",
+    "twitterHandle":"sudha",
+    "email": "Ram@gmail.com",
+    "image": "www.ram.jpg"
+ }
+ ]
+}
+
+###
+GET http://localhost:8081/blogs/all
+authentication: LetMeIn
+
+###
+DELETE  http://localhost:8081/blogs/664e16b04ce09e9d6df3fbad
+authentication: LetMeIn
+
+###
+
+PATCH  http://localhost:8081/blogs/664e1580b23b6f0ca84abbe7
+content-type: application/json
+authentication: LetMeIn
+
+{
+     "author":[
+    {
+    "fullName": "John",
+    "twitterHandle":"sudha",
+    "email": "John@gmail.com",
+    "image": "www.canva.jpg"
+ }
+ ]
+}
+
+
+###
+GET  http://13.201.62.75:8082/v1/users/6005988f06ea6b360cb75747
+
+curl -X GET  http://13.201.120.231:8082/v1/users/6005988f06ea6b360cb75747
