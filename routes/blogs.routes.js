@@ -1,9 +1,9 @@
-const router = require('express').Router();
+const blogsRouter = require('express').Router();
 const  {postCreateNewBlog, getBlogs, getBlog, deleteBlog, patchBlog} = require("../contollers/blogs.controller")
 
-router.post("/new", postCreateNewBlog)
-router.get("/all", getBlogs)
-router.delete("/:id", deleteBlog)
-router.patch("/:id", patchBlog)
+blogsRouter.post("/new", postCreateNewBlog)
+blogsRouter.get("/all", getBlogs)
+blogsRouter.delete("/:id", deleteBlog)
+blogsRouter.patch("/:id", patchBlog)
 
-module.exports = router;
+module.exports = blogsRouter;

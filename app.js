@@ -6,9 +6,9 @@ const {getCurrencies, getCurrency} = require('./contollers/currency.controllers'
 const {getUsers, getUser, getTargetUser} = require('./contollers/users.controllers')
 const currenciesData = require('./currencies.json');
 const currencyRouter = require('./routes/currencies.routes');
-const userRouter =require('./routes/user.routes');
-const Router = require("./routes/index")
-const blogRouter = require("./routes/blogs.routes")
+//const userRouter =require('./routes/user.routes');
+//const Router = require("./routes/index")
+const Router = require("./routes")
 const validateClient = require ('./middlewares/authentication')
 const {reqBodyValidation} = require("./middlewares/validators/MiddlewareValidations")
 const mongoose = require('mongoose')
@@ -30,8 +30,8 @@ app.use(validateClient)
 
 /*---------------------Users routes---------------------------------*/
 
-//app.use("/users",  userRouter);
+//app.use("/v1",  userRouter);
 
-app.use("/blogs",  Router)
+app.use("/v1", Router)
 
 app.listen(PORT, ()=>{console.log(`Server listening at ${PORT}`)})

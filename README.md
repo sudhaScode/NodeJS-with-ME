@@ -1,3 +1,47 @@
+## Differences b/w Node JS and Browser JS environment:
+
+1. `Environment:`<br>
+
+- Browser: JavaScript runs within the browser environment, interacting with the `Document Object Model (DOM)` and web APIs like `fetch` for network requests.
+- Node.js: JavaScript runs outside the browser, in a `server-side environment`. It has access to `file system` interactions, `network requests` (through modules like http), and other server-specific functionalities.<br>
+2. `Event Loop:`<br>
+
+- Browser: The browser's event loop focuses on `handling user interactions` (clicks, scrolls, etc.), `rendering updates` (DOM manipulation based on JavaScript code), and `asynchronous tasks `(network requests, timers).
+- Node.js: The Node.js event loop prioritizes `handling asynchronous tasks` and `network requests.` User interactions are not the primary focus, but Node.js can handle them through modules like http for creating servers.<br>
+3. `Global Object:`<br>
+
+- Browser: The global object in the browser is `window`. It provides access to DOM manipulation methods, event handling, and other browser-specific functionalities.
+- Node.js: The global object in Node.js is the `global object`. It provides access to server-specific functionalities like `process` (for process management) and modules for file `system access`, `networking`, etc.<br>
+4. `Modules:`<br>
+
+- Browser: Traditionally, browsers didn't have built-in module systems. Modern browsers support module systems like `ES modules`, but fetching and loading modules might involve additional steps.
+- Node.js: Node.js has a robust `CommonJS module system` for loading and organizing code into reusable modules. This simplifies code organization and dependency management on the server-side.
+Execution Flow Example:<br>
+
+**Browser:**<br>
+
+1. User opens a web page.<br>
+2. Browser fetches and parses the HTML, CSS, and JavaScript code.<br>
+3. JavaScript code goes through parsing, scoping, and memory allocation.<br>
+4. The event loop starts, waiting for user interactions or asynchronous tasks.<br>
+5. User clicks a button.<br>
+6. The event loop processes the click event, triggering the associated JavaScript code.<br>
+7. The code executes, potentially manipulating the DOM or making asynchronous requests.<br>
+8. The browser updates the DOM based on the code's instructions.<br>
+9. The event loop continues processing other tasks in the queue.<br>
+**Node.js:**<br>
+
+1. Node.js script is executed (e.g., node app.js).<br>
+2. Code is parsed, scoped, and memory is allocated.<br>
+3. The event loop starts, waiting for asynchronous tasks.<br>
+4. The script might make a network request using modules like http.<br>
+5. The request is queued in the event loop.<br>
+6. Node.js continues processing other tasks in the event queue (if any).<br>
+7. When the network request finishes, the event loop processes the response.<br>
+8. The script can use the response data for further processing.<br>
+9. The event loop continues processing other tasks.<br>
+
+
 # Asychronous is NodeJS , NodeJS is Asychronous.
 Best ways to handle the long running task like (I/O, network requests, and timers) without halting main thread , if main thread blocked the application gets un responsive untill main thread gets active or executes.
 that's why **Asychronous is NodeJS , NodeJS is Asychronous**.
@@ -33,12 +77,12 @@ There are several mechanisms to handle asynchronous operations in Node.js:
 
 # Working Mechanism of Node.JS which makes the it event-driven model and non-blocking I/O model:
 
-1.	Initiate I/O: Your Node.js program starts a non-blocking I/O operation, like reading a file or making a network request.
-2.	Event Loop: The event loop registers a callback function for handling the I/O operation's completion.
-3.	Program continues: he program doesn't wait for the I/O to finish. It moves on to execute other code or handle other requests.
-4.	I/O Completion: When the I/O operation is complete, an event is triggered.
-5.	Event loop Triggers Callback: The event loop recognizes the event and triggers the registered callback function.
-6.	Callback Execution:  The callback function, which contains the code to handle the I/O result (e.g., process the data from the file or network response), is now executed.
+1.	`Initiate I/O`: Your Node.js program starts a non-blocking I/O operation, like reading a file or making a network request.
+2.	`Event Loop`: The event loop registers a callback function for handling the I/O operation's completion.
+3.	`Program continues`: the program doesn't wait for the I/O to finish. It moves on to execute other code or handle other requests.
+4.	`I/O Completion`: When the I/O operation is complete, an event is triggered.
+5.	`Event loop Triggers Callback`: The event loop recognizes the event and triggers the registered callback function.
+6.	`Callback Execution`:  The callback function, which contains the code to handle the I/O result (e.g., process the data from the file or network response), is now executed.
 
 The process of `Nodejs` makes node applications more scalable and well managed.<br>
 Check out pillars of node - https://github.com/samerbuna/efficient-node  Best repo to know about following:
@@ -228,6 +272,14 @@ https://joi.dev/api/?v=17.5.0
 ## Middlewares
 The request might pass through middleware functions that can perform tasks like authentication, logging, validation or parsing cookies.
 - Each middleware function can access to `request`, `response` and can invoke next sequence function.
+Middleware functions are functions that have access to the request object (req), the response object (res), and the next function in the application’s request-response cycle. The next function is a function in the Express router which, when invoked, executes the middleware succeeding the current middleware.
+
+Middleware functions can perform the following tasks:
+
+- Execute any code.
+- Make changes to the request and the response objects.
+- End the request-response cycle.
+- Call the next middleware in the stack.
 
 
 - `express.json()`: Parses incoming requests with JSON payloads.
@@ -250,3 +302,92 @@ The request might pass through middleware functions that can perform tasks like 
 # Bussiness Logic Layer
 Keep all logic of data processing from controller, a separate  layer from the server routing which has only responsibilities of data controling
 
+
+**Layered Architecture:** (outer layer to inner layer) <br>
+Request flows flows from outer layer to inner layer. If something breaks in any controller check the outer layer. `each inner layer depends on outer layers `
+- Routes (Outer layer - Router() often middle ware) or Endpoints
+- Middlewares [router middleware, compression middleware, express.json() / body-parser middleware, helmet, cors, rate-limit, x-frame-options, csp (Content-Security-Policy), multer, cookieParser, session, passport]
+- Controllers - Req and res hanndlers
+- Services - (often a class) with data processing (crud operation with database)
+- Model - database driver 
+
+# Passowrd Hashing and Verifying hasing passwords
+- decrypt
+- - `salt`
+- - `hash`
+- - `compare`
+
+# Understanding Login flows
+
+# Generating Web Tokens -JWT
+## How JWTs Work
+
+**Token Generation:**
+
+Upon successful user login, the server creates a JWT. This token is a compact, URL-safe string containing three parts:
+Header: Defines the token type (JWT) and signing algorithm.
+Payload: Contains claims (data) about the user, such as user ID, username, roles, and expiration time. This payload is Base64Url encoded.
+Signature: Ensures the token's integrity and authenticity. It's created by cryptographically signing the header and payload using a secret key known only to the server.
+**Client Storage:**
+
+The server sends the JWT back to the client (typically stored in browser local storage or cookies with HttpOnly flag for security).
+**Authorization Requests:**
+
+The client includes the JWT in the Authorization header of subsequent requests to protected resources on the server.
+**Server Verification:**
+
+The server receives the JWT from the Authorization header.
+It verifies the token's signature using the same secret key.
+If valid, the server extracts the user claims from the payload and uses them for authorization decisions (e.g., granting access to resources).
+**Requirements:**
+
+Secret Key: A strong, cryptographically secure key shared between the server and client (typically stored securely on the server).
+Libraries/Frameworks: Libraries or frameworks for JWT generation, verification, and decoding on both server and client sides (depending on programming languages).
+
+# Understanding CORS
+
+# Setting a Cookie
+
+- Cookies are a way to store data inside a browser, like localStorage, but they provide us more control than just a key-value pair
+  - We can set the cookies with an expiry time for the cookie data
+  - Use the server to set the cookie on the frontend (so that it’s secure, and not accessible by the frontend console)
+- Over the frontend we can access all the cookies using document.cookie
+- Generate token using `jsonwetoken` on succesfull login, and see below steps to set cookie in browser from server.
+**Cokkie FLow**
+```
+After the credentials are verified
+
+→ The server will generate a JWT token 
+→ But instead of sending it as a JSON, it will send a cookie to the client 
+→ The client will set the cookie inside the browser depending on the request 
+→ And then later use this token with every request that requires authorization.
+
+```
+**Sending a Cookie**
+
+```
+Our res object has a function cookie to set a cookie and send it back with the request.
+The cookie function takes in three parameters
+   cookie name → this will be used to identify the cookie inside the browser
+   value → The value of the cookie, here it will be our jwt
+   options → configuration options for the cookie, such as maxAge (the time after which the cookie will expire).
+The maxAge here is taken in ms so for 1 hour → 60 minutes * 60 seconds = 1 h, to convert it to ms we multiply it by 1000
+```
+
+## Maintain Session
+In order to maintain throught user active session,  which stored as cookie/session storage in browser. maintain this state of login for the user
+
+**CAP Theorm**
+**JWt TOKEN** - body components are encrypted header + payload +secretcode =- signature
+
+![Token](image.png)
+**create with `jsonwebtoken`**
+![alt text](image-1.png)
+**What is an Cookie?**
+Cookie is piece of data/token/value from a website that is stored by browser for later use of web site authorization.
+**What are Json web tokens**
+Each JWT contains encoded JSON objects, including set of claims. JWTs are signed using a cryptographic algorithm to ensure that claims cannot be altered after token is issue.
+Typically used fro `Authorization`
+**What is CORS**
+`Cross Origin Resource Sharing` is a mechnism that allows other defined origins to access teh resource from server, and origins which are trying to request server , cors rejects it.<br>
+Main adjective is to restrict the accessing resources on web page to be requested from another domain which is not allowed/defined
